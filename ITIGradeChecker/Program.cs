@@ -16,17 +16,19 @@ Console.Write("Enter your username: ");
 string username = Console.ReadLine()!;
 Console.Write("Enter your password: ");
 string password = Console.ReadLine()!;
-Console.WriteLine();
 
 var page = await browser.NewPageAsync();
+Console.WriteLine("Logging in...");
 await page.GotoAsync("http://apps.iti.gov.eg/ManagementSystem/intlogin.aspx");
 await page.GetByPlaceholder("Your username").ClickAsync();
 await page.GetByPlaceholder("Your username").FillAsync(username);
 await page.GetByPlaceholder("Password").ClickAsync();
 await page.GetByPlaceholder("Password").FillAsync(password);
 await page.GetByRole(AriaRole.Button, new() { Name = "Login" }).ClickAsync();
+Console.WriteLine("Logged in...");
 await page.GotoAsync("http://apps.iti.gov.eg/ManagementSystem/Student/StudentGrade.aspx");
 
+Console.WriteLine("Scrapping your grades. Hold on...\n");
 var pageContent = await page.ContentAsync();
 var table = page.Locator("#ContentPlaceHolder1_UcViewGrade1_UpdatePanel1 div").Nth(1)
     .Locator("#ContentPlaceHolder1_UcViewGrade1_GrdViewcourseEval > tbody").Nth(0)
